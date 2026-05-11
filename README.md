@@ -33,6 +33,9 @@ ________________________________________________________
 
 🚀 Getting Started
 
+1️⃣Deployed Link For Direct View
+https://ishandasofficial.github.io/Finance-Tracker-Web-App-Using-Kiro-IDE/
+
 1️⃣ Clone the repository
 git clone https://github.com/ishandasofficial/Finance-Tracker-Web-App-Using-Kiro-IDE.git
 
