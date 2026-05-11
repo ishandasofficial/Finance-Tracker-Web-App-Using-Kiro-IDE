@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro Finance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="logo">
+            <div class="logo-icon">K</div>
+            kiro.finance
+        </div>
+        <div class="tab-bar">
+            <div class="tab active" onclick="showTab(this,'dashboard')">dashboard</div>
+            <div class="tab" onclick="showTab(this,'transactions')">transactions</div>
+            <div class="tab" onclick="showTab(this,'budget')">budget</div>
+        </div>
+        <div class="topbar-actions">
+            <div class="status-dot"></div>
+            <span class="status-label">live</span>
+        </div>
+    </header>
+
+    <div class="shell">
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">workspace</div>
+                <div class="sidebar-item active" onclick="showSideTab(this,'overview')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Overview <span class="badge green">live</span>
+                </div>
+                <div class="sidebar-item" onclick="showSideTab(this,'add')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="9" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Add Entry
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">accounts</div>
+                <div class="sidebar-item" id="sb-checking">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                        <line x1="2" y1="10" x2="22" y2="10" />
+                    </svg>
+                    Checking <span class="badge" id="badge-checking">—</span>
+                </div>
+                <div class="sidebar-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                    Savings <span class="badge">fixed</span>
+                </div>
+            </div>
+            <div class="sidebar-section sidebar-bottom">
+                <div class="sidebar-label">system</div>
+                <div class="sidebar-item" onclick="clearAll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                    </svg>
+                    Reset Data
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <main class="main" id="main-content">
+
+            <!-- Metrics -->
+            <div>
+                <div class="section-header">
+                    <div class="section-title">// financial_snapshot</div>
+                    <span class="period-label">all time</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card green">
+                        <div class="metric-label">Net Balance</div>
+                        <div class="metric-value" id="m-balance">$0.00</div>
+                        <div class="metric-change muted" id="m-balance-change">— no data</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-label">Total Income</div>
+                        <div class="metric-value" id="m-income">$0.00</div>
+                        <div class="metric-change up" id="m-income-count">0 transactions</div>
+                    </div>
+                    <div class="metric-card amber">
+                        <div class="metric-label">Total Expenses</div>
+                        <div class="metric-value" id="m-expenses">$0.00</div>
+                        <div class="metric-change down" id="m-expense-count">0 transactions</div>
+                    </div>
+                    <div class="metric-card red">
+                        <div class="metric-label">Savings Rate</div>
+                        <div class="metric-value" id="m-savings-rate">0%</div>
+                        <div class="metric-change muted">of income saved</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Col -->
+            <div class="two-col">
+
+                <!-- Transactions Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="accent">//</span> recent_transactions</div>
+                        <button class="btn-sm" onclick="scrollToAdd()">+ add</button>
+                    </div>
+                    <div class="panel-body panel-body-tight">
+                        <div class="tx-list" id="tx-list">
+                            <div class="empty">no transactions yet<br><span class="hint">add your first entry →</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="terminal-line" id="tx-footer">ready</div>
+                </div>
+
+                <!-- Right Col -->
+                <div class="right-col">
+
+                    <!-- Bar Chart -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title"><span class="accent">//</span> monthly_overview</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="chart-legend">
+                                <div class="chart-legend-item">
+                                    <div class="legend-swatch green-swatch"></div> income
+                                </div>
+                                <div class="chart-legend-item">
+                                    <div class="legend-swatch red-swatch"></div> expenses
+                                </div>
+                            </div>
+                            <div class="bar-chart" id="monthly-chart">
+                                <div class="empty" style="padding:8px 0">add transactions to see chart</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donut -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title"><span class="accent">//</span> expense_breakdown</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="donut-wrap">
+                                <canvas id="donut-canvas" width="110" height="110"></canvas>
+                                <div class="donut-legend" id="donut-legend">
+                                    <div class="empty no-pad">no expense data</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /right-col -->
+            </div><!-- /two-col -->
+
+            <!-- Budget -->
+            <div>
+                <div class="section-header">
+                    <div class="section-title">// budget_tracker</div>
+                    <button class="btn-sm" id="edit-budget-btn" onclick="toggleBudgetEdit()">edit limits</button>
+                </div>
+                <div class="panel budget-panel-wrap">
+                    <div class="panel-body" id="budget-panel">
+                        <div class="empty">no expenses recorded</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Transaction -->
+            <div id="add-section">
+                <div class="section-title">// add_transaction</div>
+                <div class="panel add-panel">
+                    <div class="panel-body">
+
+                        <div class="form-type">
+                            <div class="form-label" style="margin-bottom:6px">type</div>
+                            <div class="type-toggle">
+                                <button class="type-btn active-income" id="btn-income" onclick="setType('income')">↑
+                                    income</button>
+                                <button class="type-btn" id="btn-expense" onclick="setType('expense')">↓
+                                    expense</button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="f-desc">description</label>
+                                <input class="form-input" id="f-desc" type="text" placeholder="e.g. Coffee shop..."
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="f-amount">amount ($)</label>
+                                <input class="form-input" id="f-amount" type="number" placeholder="0.00" min="0.01"
+                                    step="0.01">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="f-category">category</label>
+                                <select class="form-input" id="f-category">
+                                    <option value="food">🍕 Food &amp; Dining</option>
+                                    <option value="transport">🚗 Transport</option>
+                                    <option value="shopping">🛍 Shopping</option>
+                                    <option value="health">💊 Health</option>
+                                    <option value="util">⚡ Utilities</option>
+                                    <option value="entertain">🎬 Entertainment</option>
+                                    <option value="salary">💼 Salary</option>
+                                    <option value="other">📦 Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="f-date">date</label>
+                                <input class="form-input" id="f-date" type="date">
+                            </div>
+                        </div>
+
+                        <button class="submit-btn" onclick="addTransaction()">→ commit transaction</button>
+                    </div>
+                    <div class="terminal-line" id="form-status">awaiting input</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
