@@ -26,7 +26,8 @@ ________________________________________________________
 
 📸 Preview
 
-Add screenshots of your project here
+<img width="926" height="481" alt="Finance Tracker SS2" src="https://github.com/user-attachments/assets/1838d0b7-5567-41b6-bad3-e0f84da21990" />
+<img width="938" height="499" alt="Finance Tracker SS1" src="https://github.com/user-attachments/assets/605fc178-75aa-48e9-af33-07d1a69cd0be" />
 
 ________________________________________________________
 
